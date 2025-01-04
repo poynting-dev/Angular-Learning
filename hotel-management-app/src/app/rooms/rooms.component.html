@@ -1,0 +1,34 @@
+<app-header></app-header>
+<app-header></app-header>
+<app-header></app-header>
+<!-- <div [hidden]="hideRooms"> -->
+<div *ngIf="hideRooms">
+  Total Rooms:
+  <p [innerText]="rooms.totalRooms"></p>
+  Number of rooms available:
+  <p [innerText]="rooms.availableRooms"></p>
+  Booked Rooms:
+  <p [innerText]="rooms.bookedRooms"></p>
+</div>
+
+<div *ngIf="selectedRoom">
+  {{selectedRoom | json}}
+</div>
+
+<div>
+  <button (click)="addRoom()">Add Room</button>
+</div>
+
+<h2>Total Bytes loaded {{this.totalBytes}}</h2>
+
+<div *ngIf="hideRooms && rooms.availableRooms > 0" [ngStyle]="{'font-size': '16px'}">
+  <app-rooms-list [dummyRoomList]="dummyRoomList" [title]="title" [rooms]="rooms" (selectedRoom)="selectRoom($event)"
+    (deletedRoom)="deleteRoom($event)">
+  </app-rooms-list>
+
+</div>
+
+<button (click)="toggleHideRooms()">Toggle rooms show</button>
+<button (click)="toggle()">Increase room by +1</button>
+<button (click)="editRoom()">Update Room 3</button>
+<!-- <button (click)="deleteRoom()">Delete Room 3</button> -->

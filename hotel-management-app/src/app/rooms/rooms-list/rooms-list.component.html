@@ -1,0 +1,82 @@
+<p>rooms-list works!</p>
+
+
+<h2>
+  {{title}}:
+</h2>
+{{rooms.availableRooms}}
+
+<table style="border: 1px solid;">
+  <tr>
+    <th>
+      roomNumber
+    </th>
+    <th>
+
+      roomType
+    </th>
+    <th>
+
+      ameneties
+    </th>
+    <th>
+
+      price
+    </th>
+    <th>
+
+      photos
+    </th>
+    <th>
+
+      checkInTime
+    </th>
+    <th>
+
+      checkOutTime
+    </th>
+    <th>Select Room</th>
+    <th>Delete Room</th>
+  </tr>
+  <tr *ngFor="let room of dummyRoomList; let e = even; let o = odd; let i = index">
+    <td>
+      {{e ? "even" : "odd"}}
+      {{i}}
+      {{room.roomNumber}}
+    </td>
+    <td>
+
+      {{room.roomType | uppercase}}
+    </td>
+    <td>
+
+      {{room.amenities}}
+    </td>
+    <td>
+
+      {{room.price | currency : 'INR'}}
+    </td>
+    <td>
+
+      {{room.photos}}
+    </td>
+    <td>
+
+      {{room.checkinTime | date}}
+    </td>
+    <td>
+
+      {{room.checkoutTime | date: 'dd/MMM/yy zzzz'}}
+    </td>
+    <td>
+      <button (click)="selectRoom(room)">
+        Select
+      </button>
+    </td>
+    <td>
+      <button (click)="deleteRoom(room.roomNumber)">
+        Select
+      </button>
+    </td>
+  </tr>
+</table>
