@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { localStorageToken } from './localstorage.token';
 import { RoomsComponent } from './rooms/rooms.component';
+import { InitService } from './init.service';
 
 @Component({
   selector: 'app-root',
@@ -31,8 +32,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     componentRef.instance.rooms.totalRooms = 50;
   }
 
-  constructor(@Inject(localStorageToken) private localStorage: Storage) {
+  constructor(
+    @Inject(localStorageToken) private localStorage: Storage,
+    private initService: InitService
+  ) {
     localStorage.setItem('hotelName', 'Taj Hotel');
+    console.log(initService.config);
     console.log(localStorage.getItem('hotelName'));
   }
 }

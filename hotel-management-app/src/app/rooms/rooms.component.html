@@ -1,7 +1,8 @@
 <app-header></app-header>
-<app-header></app-header>
-<app-header></app-header>
+<!-- <app-header></app-header>
+<app-header></app-header> -->
 <!-- <div [hidden]="hideRooms"> -->
+<!-- {{ rooms$ | async | json }} -->
 <div *ngIf="hideRooms">
   Total Rooms:
   <p [innerText]="rooms.totalRooms"></p>
@@ -12,20 +13,30 @@
 </div>
 
 <div *ngIf="selectedRoom">
-  {{selectedRoom | json}}
+  {{ selectedRoom | json }}
 </div>
 
 <div>
   <button (click)="addRoom()">Add Room</button>
 </div>
 
-<h2>Total Bytes loaded {{this.totalBytes}}</h2>
+<h2>Total Bytes loaded {{ this.totalBytes }}</h2>
 
-<div *ngIf="hideRooms && rooms.availableRooms > 0" [ngStyle]="{'font-size': '16px'}">
-  <app-rooms-list [dummyRoomList]="dummyRoomList" [title]="title" [rooms]="rooms" (selectedRoom)="selectRoom($event)"
-    (deletedRoom)="deleteRoom($event)">
+<h2>Error: {{ getError$ | async }}</h2>
+
+<h2>Rooms Count: {{ roomsCount$ | async }}</h2>
+<div
+  *ngIf="hideRooms && rooms.availableRooms > 0 && rooms$ | async as roomsList"
+  [ngStyle]="{ 'font-size': '16px' }"
+>
+  <app-rooms-list
+    [dummyRoomList]="roomsList"
+    [title]="title"
+    [rooms]="rooms"
+    (selectedRoom)="selectRoom($event)"
+    (deletedRoom)="deleteRoom($event)"
+  >
   </app-rooms-list>
-
 </div>
 
 <button (click)="toggleHideRooms()">Toggle rooms show</button>

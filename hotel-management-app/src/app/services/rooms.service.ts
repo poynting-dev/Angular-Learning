@@ -1,4 +1,4 @@
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { shareReplay } from 'rxjs';
 import { AppConfig } from '../AppConfig/appconfig.interface';
@@ -9,6 +9,7 @@ import { RoomList } from '../rooms/IRoom';
   providedIn: 'root',
 })
 export class RoomsService {
+  // headers = new HttpHeaders({ token: 'jhgertwugdowaediohgewid' });
   getRooms$ = this.http.get<RoomList[]>('/api/rooms').pipe(shareReplay(1));
 
   constructor(
@@ -68,7 +69,8 @@ export class RoomsService {
   // ];
 
   getRooms() {
-    return this.http.get<RoomList[]>('/api/rooms');
+    const headers = new HttpHeaders({ token: 'jhgertwugdowaediohgewid' });
+    return this.http.get<RoomList[]>('/api/rooms', { headers: headers });
   }
 
   addRoom(room: RoomList) {

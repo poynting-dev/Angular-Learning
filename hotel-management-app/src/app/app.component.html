@@ -1,12 +1,16 @@
-<h4>hello world!</h4>
+<!-- <h4>hello world!</h4> -->
 <!-- <div>
   <ng-template #user></ng-template>
 </div> -->
 <!-- <app-rooms></app-rooms> -->
-<div #name></div>
+<!-- <div #name></div>
 <app-container>
   <h2>This content is from ng-content</h2>
   <app-rooms></app-rooms>
   <app-employee></app-employee>
-</app-container>
+</app-container> -->
 <!-- <app-streaming></app-streaming> -->
+
+<a [routerLink]="'rooms'">Rooms</a>
+<a [routerLink]="'employee'">Employee</a>
+<router-outlet> </router-outlet>

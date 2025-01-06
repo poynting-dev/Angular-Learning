@@ -9,10 +9,20 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { Head, Observable } from 'rxjs';
+import {
+  catchError,
+  Head,
+  map,
+  Observable,
+  of,
+  Subject,
+  Subscription,
+} from 'rxjs';
 import { RoomsService } from '../services/rooms.service';
 import { HeaderComponent } from './header/header.component';
 import { IRoom, RoomList } from './IRoom';
+import { CommonModule } from '@angular/common';
+import { RoomsListComponent } from './rooms-list/rooms-list.component';
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
@@ -24,7 +34,21 @@ export class RoomsComponent
   hotelName: string = 'Taj Hotel';
   hideRooms: boolean = true;
 
-  room$ = this.roomsService.getRooms$;
+  error$ = new Subject<string>();
+
+  getError$ = this.error$.asObservable();
+
+  rooms$ = this.roomsService.getRooms$.pipe(
+    catchError((err) => {
+      console.log(err);
+      this.error$.next(err.message);
+      return of([]);
+    })
+  );
+
+  roomsCount$ = this.roomsService.getRooms$.pipe(map((rooms) => rooms.length));
+
+  subscription!: Subscription;
 
   stream = new Observable<string>((observer) => {
     observer.next('user1');
@@ -115,10 +139,10 @@ export class RoomsComponent
       }
     });
 
-    this.roomsService.getRooms$.subscribe((data) => {
-      this.dummyRoomList = data;
-      console.log(data);
-    });
+    // this.subscription = this.roomsService.getRooms$.subscribe((data) => {
+    //   this.dummyRoomList = data;
+    //   console.log(data);
+    // });
   }
 
   selectRoom(room: RoomList): void {
@@ -163,5 +187,11 @@ export class RoomsComponent
     this.roomsService.deleteRoom(roomNumber).subscribe((data) => {
       this.dummyRoomList = data;
     });
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }
